@@ -38,6 +38,11 @@ let userAnswers = [];
 let index = 0;
 
 function showNextQuestion() {
+    // Check answers
+    if (index >= questions.length) {
+        checkAnswers();
+        return;
+    }
     // TODO: Get the current question
     let currQuestion = questions[index];
 
@@ -79,16 +84,52 @@ function submitAnswer(event) {
     // TODO: Use a conditional (if/else-if) to check which option was clicked and push the option text into the userAnswer array
     if (option1.checked) {
         console.log("Option1 picked");
+        userAnswers.push(question.option1);
+        option1.checked = false;
     }
+    else if (option2.checked) {
+        console.log("Option2 picked");
+        userAnswers.push(question.option2);
+        option2.checked = true;
+    }
+    else if (option3.checked) {
+        console.log("Option3 picked");
+        userAnswers.push(question.option3);
+        option3.checked = false;
+    }
+    else if (option4.checked) {
+        console.log("Option4 picked");
+        userAnswers.push(question.option4);
+        option4.checked = false;
+    }
+    else {
+        alert("Select an answer before moving on");
+        return;
+    }
+    
     // TODO: Add one to the question index
+    index = index + 1;
 
     // TODO: Load the next question
+    showNextQuestion();
 }
 
 function checkAnswers() {
     // TODO: Iterate through the user answers array and count how many are correct
+    let  numCorrect = 0;
+    for (let i = 0; i < userAnswers.length; i++) {
+        let userAnswer = userAnswers[i];
+        let question = questions[i];
+        if (userAnswer == question.answer) {
+            numCorrect++;
+        }
+    }
 
     // TODO: Show an alert to the user with how many they got right out of the total
+    alert("You got " + numCorrect + " out of " + questions.length + " correct");
 
     // TODO: Reset and start over
+    index = 0;
+    userAnswers = [];
+    showNextQuestion();
 }
